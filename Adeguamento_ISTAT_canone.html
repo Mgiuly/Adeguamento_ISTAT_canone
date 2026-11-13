@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try{if(window.self!==window.top)document.documentElement.classList.add("embedded")}catch(e){document.documentElement.classList.add("embedded")}</script>
+    <title>Adeguamento ISTAT del canone e scadenze del contratto - Giuliato&amp;Battistin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette lifted from giuliatobattistin.it */
+            --bg: #2C3E50;
+            --deep: #0D1F31;
+            --line: rgba(255, 255, 255, 0.16);
+            --line-strong: rgba(255, 255, 255, 0.34);
+            --text: rgba(255, 255, 255, 0.88);
+            --muted: rgba(255, 255, 255, 0.72);
+            --white: #FFFFFF;
+            --teal: #0F766E;
+            --teal-hover: #115E59;
+            --mint: #32D296;
+            --red: #E74C3C;
+            --red-text: #FF9B8F;
+
+            --sheet: #FFFFFF;
+            --sheet-text: #2C3E50;
+            --sheet-muted: #56677A;
+            --sheet-line: #DCE1E6;
+            --sheet-soft: #F4F6F8;
+
+            --font-display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+            --font-body: 'Open Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+            --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px; --space-5: 48px;
+            --radius-panel: 16px; --radius-field: 10px; --radius-pill: 9999px;
+            --shadow-panel: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+            --shadow-focus: 0 0 0 3px rgba(50, 210, 150, 0.35);
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; color-scheme: dark; scrollbar-color: var(--line-strong) var(--bg); }
+        body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; margin: 0; padding: var(--space-5) var(--space-2) 96px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+        ::selection { background: var(--mint); color: var(--deep); }
+        :focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+        .hidden { display: none !important; }
+
+        .container { max-width: 960px; margin: 0 auto; }
+        html.embedded body { padding-top: var(--space-2); padding-bottom: var(--space-4); }
+        html.embedded .page-head .brand, html.embedded .page-head h1 { display: none; }
+        html.embedded .page-head { margin-bottom: var(--space-3); }
+
+        .page-head { text-align: center; margin-bottom: var(--space-4); }
+        .page-head .brand { font-family: var(--font-display); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: var(--muted); margin: 0 0 var(--space-2); }
+        .page-head h1 { font-family: var(--font-display); font-size: clamp(26px, 5vw, 36px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; color: var(--white); margin: 0; text-wrap: balance; }
+        .page-head .subtitle { margin: var(--space-2) auto 0; max-width: 60ch; color: var(--muted); }
+
+        .note { margin: 0 0 var(--space-4); padding: var(--space-2) var(--space-3); background: rgba(250, 145, 90, 0.1); border: 1px solid rgba(250, 145, 90, 0.4); border-radius: var(--radius-field); font-size: 13.5px; line-height: 1.6; color: var(--text); }
+        .note strong { color: var(--white); }
+
+        /* Form sheet */
+        #istat-form { background: var(--deep); border: 1px solid var(--line); border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); padding: var(--space-5); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); column-gap: var(--space-5); row-gap: var(--space-5); align-items: start; }
+        .form-section { border: 0; margin: 0; padding: 0; min-width: 0; }
+        .form-section.wide { grid-column: 1 / -1; }
+        .form-section legend { float: left; width: 100%; padding: 0 0 var(--space-2); margin: 0 0 var(--space-3); border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 17px; font-weight: 700; letter-spacing: 0.01em; line-height: 1.3; color: var(--white); }
+        .form-section legend + * { clear: both; }
+        .field + .field { margin-top: var(--space-2); }
+        .field label:not(.choice), .choices-label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text); font-size: 13.5px; }
+        .field input[type="number"], .field select {
+            width: 100%; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-field);
+            font-family: inherit; font-size: 16px; color: var(--white); background: var(--bg);
+            transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+            font-variant-numeric: tabular-nums;
+        }
+        .field select option { color: #1B2733; background: #fff; }
+        .field input::placeholder { color: var(--muted); opacity: 0.6; }
+        .field input[type="number"]:hover, .field select:hover { border-color: rgba(255, 255, 255, 0.55); }
+        .field input[type="number"]:focus, .field select:focus { border-color: var(--mint); outline: none; box-shadow: var(--shadow-focus); }
+        [aria-invalid="true"] { border-color: var(--red) !important; }
+        .hint { font-size: 12.5px; color: var(--muted); margin: 5px 0 0; display: block; line-height: 1.5; }
+
+        .choices { display: grid; gap: 4px; }
+        .choices.two-col { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); column-gap: var(--space-3); }
+        .choices-box { margin-top: var(--space-2); padding: var(--space-2); background: rgba(255,255,255,0.05); border-radius: var(--radius-field); }
+        .choice { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 6px 4px; font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.4; }
+        .choice input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--mint); cursor: pointer; }
+
+        .form-error { grid-column: 1 / -1; margin: 0; text-align: center; color: var(--red-text); font-weight: 600; font-size: 14px; }
+        .form-error[hidden] { display: none; }
+
+        .btn { font-family: var(--font-display); color: #fff; display: inline-flex; justify-content: center; align-items: center; gap: var(--space-1); padding: 12px 24px; min-height: 48px; width: 100%; border: 1px solid transparent; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; letter-spacing: 0.04em; line-height: 1.3; text-align: center; cursor: pointer; transition: background-color 0.2s var(--ease-out), transform 0.15s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out); }
+        .btn:hover { transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary { background: var(--teal); }
+        .btn-primary:hover { background: var(--teal-hover); }
+        .btn-outline { background: transparent; color: var(--sheet-text); border-color: var(--sheet-text); }
+        .btn-outline:hover { background: var(--sheet-text); color: #fff; }
+        #btn-calc { grid-column: 1 / -1; justify-self: center; width: min(100%, 380px); padding: 16px 32px; font-size: 15px; text-transform: uppercase; }
+
+        /* Results: white sheet */
+        .results-section { display: none; margin-top: var(--space-5); background: var(--sheet); color: var(--sheet-muted); padding: var(--space-5); border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); scroll-margin-top: var(--space-3); }
+        .results-section:focus { outline: none; }
+        .results-section.visible { display: block; animation: reveal 0.6s var(--ease-out); }
+        @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+        .highlight-box { margin: 0 0 var(--space-2); }
+        .highlight-box p { margin: 0; font-family: var(--font-display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--teal); }
+        .highlight-box .range { display: block; margin-top: 6px; font-family: var(--font-display); font-size: clamp(28px, 6vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: var(--sheet-text); font-variant-numeric: tabular-nums; }
+        .sheet-note { margin: 0 0 var(--space-4); font-size: 14px; color: var(--sheet-muted); }
+        .results-section h2 { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--sheet-text); margin: 0 0 var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--sheet-line); }
+        .results-section h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sheet-text); margin: var(--space-3) 0 4px; }
+        .detail-list { margin: 0; }
+        .detail-list .row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); padding: 10px 0; border-bottom: 1px solid var(--sheet-line); font-size: 14.5px; }
+        .detail-list dt { color: var(--sheet-muted); }
+        .detail-list dd { margin: 0; text-align: right; font-weight: 600; color: var(--sheet-text); font-variant-numeric: tabular-nums; }
+        .detail-list .row.strong dt { color: var(--sheet-text); font-weight: 700; }
+        .detail-list .row.strong dd { color: #115E59; font-weight: 700; }
+        .result-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--sheet-line); flex-wrap: wrap; }
+        .result-actions .btn { flex: 1 1 240px; }
+        .results-section :focus-visible { outline-color: var(--teal); }
+
+        /* Attestation: a paper document, kept in a serif as in the original */
+        #word-output { margin-top: var(--space-5); padding: var(--space-5); background: #fff; color: #1d1d1d; border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; }
+        #word-output h2 { font-family: 'Times New Roman', Times, serif; font-size: 14pt; text-align: center; margin-bottom: 20px; color: #000; border-bottom: 1px solid #000; padding-bottom: 5px; font-weight: bold; }
+        #word-output h3 { font-family: 'Times New Roman', Times, serif; font-size: 12pt; font-weight: bold; margin-top: 20px; margin-bottom: 10px; color: #000; }
+        #word-output p { margin-top: 0; margin-bottom: 10px; text-align: justify; color: #1d1d1d; }
+        #word-output table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11pt; }
+        #word-output th, #word-output td { border: 1px solid #bbb; padding: 6px 8px; text-align: left; color: #1d1d1d; }
+        #word-output th { background-color: #eef1f4; font-weight: bold; }
+        #word-output .placeholder { font-weight: bold; color: #115E59; }
+        #word-output .fill-in { display: inline-block; min-width: 150px; border-bottom: 1px dotted #000; margin: 0 5px; text-align: center; color: #555; font-style: italic; font-size: 10pt; line-height: 1.2; }
+        #word-output .small-fill-in { min-width: 50px; }
+        #word-output .sig-line { display: inline-block; width: 250px; border-top: 1px solid #000; margin-top: 40px; text-align: center; }
+        #word-output .footer-note { font-size: 10pt; color: #444; text-align: center; margin-top: 20px; }
+        #word-output .info { color: #444; }
+
+        @media (max-width: 640px) {
+            body { padding-top: var(--space-4); }
+            #istat-form { padding: var(--space-3) var(--space-2); row-gap: var(--space-4); border-radius: 14px; }
+            .results-section, #word-output { padding: var(--space-4) var(--space-2); border-radius: 14px; }
+            .detail-list .row { flex-wrap: wrap; }
+            .detail-list dd { text-align: left; }
+            #word-output .sig-line { width: 180px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .btn:hover { transform: none; }
+        }
+
+        /* ISTAT tool specifics */
+        details.advanced { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: var(--space-2); }
+        details.advanced summary { cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--white); padding: 8px 0; }
+        details.advanced .adv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--space-2) var(--space-3); margin-top: var(--space-2); }
+        .field input[type="date"], .field input[type="text"] { width: 100%; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-field); font-family: inherit; font-size: 16px; color: var(--white); background: var(--bg); color-scheme: dark; }
+        .field input[type="date"]:focus, .field input[type="text"]:focus { border-color: var(--mint); outline: none; box-shadow: var(--shadow-focus); }
+        .field input::placeholder { color: var(--muted); opacity: 0.6; }
+        .privacy { grid-column: 1 / -1; margin: 0; text-align: center; font-size: 12.5px; color: var(--muted); }
+        .callout { margin: 0 0 var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-field); background: #E6F4F2; color: #0B4F49; font-size: 14.5px; line-height: 1.6; }
+        .callout.warn { background: #FFF1E8; color: #7A3412; }
+        .callout strong { color: inherit; }
+        .results-section .sub { margin: 0 0 var(--space-2); font-size: 14px; color: var(--sheet-muted); }
+        .lang-row { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-2); }
+        .lang-row label { font-size: 13.5px; font-weight: 600; color: var(--sheet-text); }
+        .lang-row select { padding: 8px 12px; border: 1px solid var(--sheet-line); border-radius: var(--radius-field); font-family: inherit; font-size: 14px; color: var(--sheet-text); background: #fff; }
+        .letter { margin: 0; padding: var(--space-3); background: var(--sheet-soft); border-radius: var(--radius-field); color: var(--sheet-text); font-family: var(--font-body); font-size: 14px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .btn-row { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-2); }
+        .btn-row .btn { flex: 1 1 200px; }
+        .timeline { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .timeline th { text-align: left; font-family: var(--font-display); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sheet-muted); padding: 8px 12px 8px 0; border-bottom: 1px solid var(--sheet-line); }
+        .timeline td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--sheet-line); vertical-align: top; color: var(--sheet-muted); }
+        .timeline td.when { white-space: nowrap; font-family: var(--font-display); font-weight: 700; color: var(--sheet-text); font-variant-numeric: tabular-nums; }
+        .timeline td.what strong { display: block; color: var(--sheet-text); font-weight: 600; }
+        .timeline tr.past td { opacity: 0.55; }
+        .timeline .tag { display: inline-block; margin-top: 4px; padding: 1px 10px; border-radius: var(--radius-pill); background: var(--sheet-soft); font-size: 12px; font-weight: 600; color: var(--sheet-text); }
+        .timeline .tag.soon { background: #FFF1E8; color: #7A3412; }
+        .source-note { margin: var(--space-3) 0 0; font-size: 12.5px; color: var(--sheet-muted); }
+        .checks { margin: 0; padding-left: 20px; color: var(--sheet-muted); font-size: 14px; line-height: 1.7; }
+        .checks li + li { margin-top: 4px; }
+        @media (max-width: 640px) {
+            .timeline td.when { white-space: normal; }
+            .timeline, .timeline tbody, .timeline tr, .timeline td { display: block; }
+            .timeline thead { display: none; }
+            .timeline tr { padding: 10px 0; border-bottom: 1px solid var(--sheet-line); }
+            .timeline td { border: 0; padding: 2px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-head">
+            <p class="brand">Giuliato&amp;Battistin</p>
+            <h1>Adeguamento ISTAT e scadenze del contratto</h1>
+            <p class="subtitle">Calcola l'aggiornamento annuale del canone con l'indice FOI, prepara la lettera per l'inquilino e tieni sotto controllo le date del contratto.</p>
+        </header>
+
+        <form id="istat-form" novalidate onsubmit="return false">
+            <fieldset class="form-section">
+                <legend>Il contratto</legend>
+                <div class="field">
+                    <label for="canone">Canone mensile attuale (€)</label>
+                    <input type="number" id="canone" min="0" step="0.01" inputmode="decimal" placeholder="Es. 750" aria-describedby="err-calc">
+                </div>
+                <div class="field">
+                    <label for="decorrenza">Data di decorrenza del contratto</label>
+                    <input type="date" id="decorrenza" aria-describedby="err-calc">
+                </div>
+                <div class="field">
+                    <label for="tipo">Tipo di contratto</label>
+                    <select id="tipo">
+                        <option value="libero">Abitativo a canone libero 4+4</option>
+                        <option value="concordato">Abitativo a canone concordato 3+2</option>
+                        <option value="commerciale">Commerciale ordinario 6+6</option>
+                        <option value="nonabitativo">Non abitativo con durata iniziale superiore al minimo (es. 7+6)</option>
+                    </select>
+                </div>
+                <div class="field" id="durate-field" hidden>
+                    <label for="durata1">Durata iniziale (anni)</label>
+                    <input type="number" id="durata1" min="1" max="30" step="1" inputmode="numeric" value="7">
+                </div>
+                <div class="field" id="rinnovo-field" hidden>
+                    <label for="durata2">Rinnovo (anni)</label>
+                    <input type="number" id="durata2" min="1" max="30" step="1" inputmode="numeric" value="6">
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+                <legend>Condizioni</legend>
+                <div class="field">
+                    <span class="choices-label" id="l-ced">Il locatore ha scelto la cedolare secca?</span>
+                    <div class="choices" role="radiogroup" aria-labelledby="l-ced">
+                        <label class="choice"><input type="radio" name="cedolare" value="no" checked> No, tassazione ordinaria</label>
+                        <label class="choice"><input type="radio" name="cedolare" value="si"> Sì, cedolare secca</label>
+                    </div>
+                    <span class="hint">Con la cedolare secca l'aggiornamento è sospeso per tutto il periodo dell'opzione, anche se il contratto lo prevede.</span>
+                </div>
+                <div class="field">
+                    <span class="choices-label" id="l-cl">Il contratto prevede l'adeguamento ISTAT?</span>
+                    <div class="choices" role="radiogroup" aria-labelledby="l-cl">
+                        <label class="choice"><input type="radio" name="clausola" value="si" checked> Sì, c'è la clausola</label>
+                        <label class="choice"><input type="radio" name="clausola" value="no"> No, non è prevista</label>
+                    </div>
+                    <span class="hint">Senza clausola l'aumento non è dovuto, qualunque percentuale si scelga.</span>
+                </div>
+                <div class="field" id="quota-field">
+                    <label for="quota-clausola">Percentuale indicata nella clausola (se c'è)</label>
+                    <input type="number" id="quota-clausola" min="0" max="100" step="1" inputmode="numeric" placeholder="Lascia vuoto se la clausola non la indica" aria-describedby="quota-hint">
+                    <span class="hint" id="quota-hint"></span>
+                </div>
+            </fieldset>
+
+            <details class="advanced">
+                <summary>Opzioni avanzate (clausole particolari)</summary>
+                <div class="adv-grid">
+                    <div class="field">
+                        <label for="anniv">Anniversario da aggiornare</label>
+                        <select id="anniv"></select>
+                    </div>
+                    <div class="field">
+                        <label for="refmese">Mese di riferimento dell'indice</label>
+                        <select id="refmese" aria-describedby="h-ref"></select>
+                        <span class="hint" id="h-ref">Di norma è il mese che precede l'anniversario. Cambialo se il contratto indica un altro mese.</span>
+                    </div>
+                </div>
+            </details>
+
+            <fieldset class="form-section wide">
+                <legend>Dati per la lettera (facoltativi)</legend>
+                <div class="adv-grid">
+                    <div class="field">
+                        <label for="n-loc">Nome del locatore</label>
+                        <input type="text" id="n-loc" autocomplete="off" placeholder="Es. Mario Rossi">
+                    </div>
+                    <div class="field">
+                        <label for="n-cond">Nome del conduttore</label>
+                        <input type="text" id="n-cond" autocomplete="off" placeholder="Es. Anna Bianchi">
+                    </div>
+                    <div class="field">
+                        <label for="n-imm">Indirizzo dell'immobile</label>
+                        <input type="text" id="n-imm" autocomplete="off" placeholder="Es. Via Roma 1, Vicenza">
+                    </div>
+                </div>
+            </fieldset>
+
+            <p class="form-error" id="err-calc" role="alert" hidden></p>
+            <button type="button" id="btn-calc" class="btn btn-primary">Calcola adeguamento</button>
+            <p class="privacy">I dati restano nel tuo browser: non vengono inviati né salvati.</p>
+        </form>
+
+        <section id="risultati" class="results-section" aria-labelledby="res-title" tabindex="-1">
+            <div class="highlight-box" aria-live="polite">
+                <p id="res-title">Nuovo canone mensile</p>
+                <span class="range" id="res-main">—</span>
+            </div>
+            <div id="res-callout" class="callout" hidden></div>
+
+            <h2>Il calcolo</h2>
+            <dl class="detail-list" id="res-detail"></dl>
+            <p class="sub" id="quota-note" style="margin-top: 16px;" hidden></p>
+
+            <div id="letter-block" hidden>
+                <h2>Lettera per l'inquilino</h2>
+                <p class="sub">Da inviare per iscritto (ad esempio con PEC o raccomandata). Completa le parti tra parentesi quadre.</p>
+                <div class="lang-row">
+                    <label for="letter-lang">Lingua</label>
+                    <select id="letter-lang">
+                        <option value="it">Italiano</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <pre class="letter" id="letter-text"></pre>
+                <div class="btn-row">
+                    <button type="button" id="btn-copy" class="btn btn-primary">Copia la lettera</button>
+                    <button type="button" id="btn-txt" class="btn btn-outline">Scarica (.txt)</button>
+                </div>
+            </div>
+
+            <div id="schedule-block" hidden>
+                <h2>Scadenzario del contratto</h2>
+                <p class="sub" id="schedule-sub"></p>
+                <table class="timeline">
+                    <thead><tr><th scope="col">Data</th><th scope="col">Cosa</th></tr></thead>
+                    <tbody id="schedule-body"></tbody>
+                </table>
+                <div class="btn-row">
+                    <button type="button" id="btn-ics" class="btn btn-primary">Aggiungi le scadenze al calendario (.ics)</button>
+                </div>
+            </div>
+
+            <h2>Da controllare prima di inviare</h2>
+            <ul class="checks">
+                <li>La quota proposta dipende dal tipo di contratto ed è un limite o una proposta, non un diritto automatico: verifica nel contratto la clausola ISTAT, il mese di riferimento e le modalità di comunicazione.</li>
+                <li>Le date dello scadenzario sono indicative e calcolate dalla sola data di decorrenza: confrontale con le clausole del contratto.</li>
+                <li>Se il canone è già stato aggiornato in passato, inserisci il canone attuale, non quello iniziale.</li>
+            </ul>
+            <p class="source-note" id="source-note"></p>
+
+            <div class="result-actions">
+                <button type="button" id="btn-wa" class="btn btn-primary">Chiedi un parere all'agenzia su WhatsApp</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- DATI ---
+        // Variazione percentuale ANNUA (stesso mese dell'anno precedente) dell'indice FOI (famiglie di operai e impiegati, senza tabacchi).
+        // Fonte: ISTAT (SDMX esploradati.istat.it). Il blocco qui sotto è riscritto ogni mese dallo script scripts/update_foi.py
+        // (GitHub Actions): non modificarlo a mano.
+        /*FOI_DATA_START*/
+        const FOI_DATA = {"first": "2020-01", "last": "2026-09", "next_release": "2026-11-17", "annual": {"2020-01": 0.5, "2020-02": 0.2, "2020-03": 0.1, "2020-04": -0.1, "2020-05": -0.4, "2020-06": -0.3, "2020-07": -0.4, "2020-08": -0.7, "2020-09": -0.6, "2020-10": -0.4, "2020-11": -0.3, "2020-12": -0.2, "2021-01": 0.2, "2021-02": 0.5, "2021-03": 0.7, "2021-04": 1.2, "2021-05": 1.3, "2021-06": 1.4, "2021-07": 1.9, "2021-08": 2.1, "2021-09": 2.6, "2021-10": 3.0, "2021-11": 3.6, "2021-12": 3.8, "2022-01": 4.7, "2022-02": 5.6, "2022-03": 6.4, "2022-04": 5.8, "2022-05": 6.8, "2022-06": 7.8, "2022-07": 7.8, "2022-08": 8.1, "2022-09": 8.6, "2022-10": 11.5, "2022-11": 11.5, "2022-12": 11.3, "2023-01": 9.8, "2023-02": 8.9, "2023-03": 7.4, "2023-04": 7.9, "2023-05": 7.2, "2023-06": 6.0, "2023-07": 5.7, "2023-08": 5.2, "2023-09": 5.1, "2023-10": 1.7, "2023-11": 0.7, "2023-12": 0.6, "2024-01": 0.8, "2024-02": 0.7, "2024-03": 1.2, "2024-04": 0.8, "2024-05": 0.8, "2024-06": 0.8, "2024-07": 1.1, "2024-08": 0.8, "2024-09": 0.6, "2024-10": 0.8, "2024-11": 1.2, "2024-12": 1.1, "2025-01": 1.3, "2025-02": 1.5, "2025-03": 1.7, "2025-04": 1.7, "2025-05": 1.4, "2025-06": 1.5, "2025-07": 1.5, "2025-08": 1.4, "2025-09": 1.4, "2025-10": 1.1, "2025-11": 1.0, "2025-12": 1.1, "2026-01": 0.8, "2026-02": 1.1, "2026-03": 1.5, "2026-04": 2.6, "2026-05": 3.0, "2026-06": 2.9, "2026-07": 2.8, "2026-08": 3.4, "2026-09": 4.0}};
+        /*FOI_DATA_END*/
+        const FOI_ANNUAL = FOI_DATA.annual;
+        const FOI_FIRST = FOI_DATA.first;      // primo mese presente nella tabella
+        const FOI_LAST = FOI_DATA.last;        // ultimo mese pubblicato
+        const WHATSAPP_NUMBER = '390444525447';
+
+        const MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+        const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const $ = (id) => document.getElementById(id);
+        const eur = (v) => v.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' });
+        const pct = (v) => v.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+        const fmtDate = (d) => d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+        const fmtDateEn = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        const isoOf = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        const keyOf = (y, m) => y + '-' + String(m + 1).padStart(2, '0');
+        const monthLabel = (key) => { const [y, m] = key.split('-').map(Number); return MESI[m - 1] + ' ' + y; };
+        const monthLabelEn = (key) => { const [y, m] = key.split('-').map(Number); return MONTHS_EN[m - 1] + ' ' + y; };
+        const addMonthKey = (key, n) => { const [y, m] = key.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return keyOf(d.getFullYear(), d.getMonth()); };
+        const FOI_NEXT_KEY = addMonthKey(FOI_LAST, 1);   // mese che sarà pubblicato alla prossima diffusione
+        const nextReleaseText = () => FOI_DATA.next_release ? fmtDate(parseDate(FOI_DATA.next_release)) : 'metà ' + monthLabel(addMonthKey(FOI_NEXT_KEY, 1));
+        const prevYearKey = (key) => { const [y, m] = key.split('-'); return (Number(y) - 1) + '-' + m; };
+
+        // --- DATE ---
+        function parseDate(v) { const [y, m, d] = v.split('-').map(Number); return new Date(y, m - 1, d); }
+        function addYears(d, n) { return new Date(d.getFullYear() + n, d.getMonth(), d.getDate()); }
+        function addMonths(d, n) {
+            const t = new Date(d.getFullYear(), d.getMonth() + n, 1);
+            const last = new Date(t.getFullYear(), t.getMonth() + 1, 0).getDate();
+            return new Date(t.getFullYear(), t.getMonth(), Math.min(d.getDate(), last));
+        }
+        function addDays(d, n) { const t = new Date(d); t.setDate(t.getDate() + n); return t; }
+        const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        const daysBetween = (a, b) => Math.round((startOfDay(b) - startOfDay(a)) / 86400000);
+        function refKeyForAnniversary(a) { const p = new Date(a.getFullYear(), a.getMonth() - 1, 1); return keyOf(p.getFullYear(), p.getMonth()); }
+
+        // Logica per tipo di contratto: quota proposta (def), tetto (cap), durata iniziale e rinnovo, mesi di preavviso per la disdetta.
+        const TIPI = {
+            libero:       { def: 100, cap: 100, first: 4, renew: 4, disd: 6,  note: 'Abitativo a canone libero: 100% come proposta, da confermare con la clausola. Se la clausola indica il 75%, si applica il 75%.' },
+            concordato:   { def: 75,  cap: 75,  first: 3, renew: 2, disd: 6,  note: 'Abitativo a canone concordato: fino al 75%. Verifica l\'accordo territoriale e la clausola: il limite non significa che sia sempre dovuto il 75%.' },
+            commerciale:  { def: 75,  cap: 75,  first: 6, renew: 6, disd: 12, note: 'Commerciale ordinario: 75%, se l\'aggiornamento è previsto dal contratto. Se la clausola indica una percentuale inferiore, si usa quella.' },
+            nonabitativo: { def: 100, cap: 100, first: 7, renew: 6, disd: 12, note: 'Non abitativo con durata iniziale superiore al minimo: vale la percentuale prevista dalla clausola, eventualmente il 100%. Il 100% non è automatico: verifica la clausola.' }
+        };
+        function contractDurations(tipo) {
+            const t = TIPI[tipo];
+            if (tipo !== 'nonabitativo') return { first: t.first, renew: t.renew };
+            return { first: Math.max(1, parseInt($('durata1').value, 10) || t.first), renew: Math.max(1, parseInt($('durata2').value, 10) || t.renew) };
+        }
+        // Quota effettiva: se la clausola indica una percentuale si usa quella (entro il tetto del tipo), altrimenti la proposta.
+        function effectiveQuota(tipo) {
+            const t = TIPI[tipo];
+            const raw = $('quota-clausola').value.trim();
+            const c = raw === '' ? null : parseFloat(raw);
+            if (c === null || isNaN(c)) return { q: t.def, fromClause: false, capped: false };
+            const q = Math.max(0, Math.min(c, t.cap));
+            return { q, fromClause: true, capped: c > t.cap };
+        }
+        function syncTipo() {
+            const tipo = $('tipo').value;
+            $('durate-field').hidden = $('rinnovo-field').hidden = tipo !== 'nonabitativo';
+            $('quota-hint').textContent = 'Quota proposta per questo tipo di contratto: ' + TIPI[tipo].def + '%. ' + TIPI[tipo].note;
+        }
+        function syncClausola() { $('quota-field').hidden = document.querySelector('input[name="clausola"]:checked').value !== 'si'; }
+
+        let state = null;   // ultimo risultato, per lettera / ics / whatsapp
+
+        // --- ANNIVERSARI E MESE DI RIFERIMENTO ---
+        function populateAnniversaries() {
+            const sel = $('anniv');
+            sel.innerHTML = '';
+            const v = $('decorrenza').value;
+            if (!v) { sel.innerHTML = '<option value="">Inserisci la decorrenza</option>'; return; }
+            const start = parseDate(v), today = startOfDay(new Date());
+            const list = [];
+            for (let k = 1; k <= 30; k++) { const a = addYears(start, k); if (a <= addDays(today, 400)) list.push({ k, a }); }
+            if (!list.length) { sel.innerHTML = '<option value="">Il contratto non ha ancora compiuto un anno</option>'; return; }
+            const past = list.filter(x => x.a <= today);
+            const shown = list.slice(-4);
+            shown.forEach(x => {
+                const o = document.createElement('option');
+                o.value = isoOf(x.a);
+                o.textContent = x.k + '° anniversario - ' + fmtDate(x.a) + (x.a > today ? ' (non ancora raggiunto)' : '');
+                sel.appendChild(o);
+            });
+            if (!past.length) {
+                sel.innerHTML = '<option value="">Il contratto non ha ancora compiuto un anno</option>';
+                return;
+            }
+            const def = past[past.length - 1];
+            sel.value = isoOf(def.a);
+            syncRefMonth();
+        }
+        function populateRefMonths() {
+            const sel = $('refmese');
+            sel.innerHTML = '';
+            Object.keys(FOI_ANNUAL).sort().reverse().forEach(k => {
+                const o = document.createElement('option');
+                o.value = k; o.textContent = monthLabel(k) + ' (' + FOI_ANNUAL[k].toLocaleString('it-IT', { minimumFractionDigits: 1 }) + '% annuo)';
+                sel.appendChild(o);
+            });
+            const o = document.createElement('option'); o.value = 'nd'; o.textContent = 'Mese non ancora pubblicato'; sel.appendChild(o);
+        }
+        function syncRefMonth() {
+            const a = $('anniv').value;
+            if (!a) return;
+            const ref = refKeyForAnniversary(parseDate(a));
+            $('refmese').value = FOI_ANNUAL[ref] !== undefined ? ref : 'nd';
+            $('refmese').dataset.auto = ref;
+        }
+
+        // --- LETTERA ---
+        function buildLetter(lang) {
+            const s = state; if (!s || !s.due) return '';
+            const loc = $('n-loc').value.trim() || (lang === 'it' ? '[Nome del locatore]' : '[Landlord name]');
+            const cond = $('n-cond').value.trim() || (lang === 'it' ? '[Nome del conduttore]' : '[Tenant name]');
+            const imm = $('n-imm').value.trim() || (lang === 'it' ? '[indirizzo dell\'immobile]' : '[property address]');
+            const n = (v) => v.toLocaleString(lang === 'it' ? 'it-IT' : 'en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const e = (v) => (lang === 'it' ? '€ ' : '€ ') + n(v);
+            if (lang === 'it') {
+                return `Oggetto: adeguamento ISTAT del canone di locazione - ${imm}
+
+Gentile ${cond},
+
+con riferimento al contratto di locazione con decorrenza dal ${fmtDate(s.start)}, relativo all'immobile in ${imm}, e in applicazione della clausola di aggiornamento ISTAT prevista dal contratto, Le comunico che a partire dal ${fmtDate(s.anniv)} il canone mensile è aggiornato come segue:
+
+- canone mensile attuale: ${e(s.canone)}
+- variazione annua dell'indice ISTAT FOI (senza tabacchi) di ${monthLabel(s.ref)}: ${pct(s.var)}
+- quota della variazione applicata: ${s.perc}% = ${pct(s.applied)}
+- nuovo canone mensile: ${e(s.nuovo)} (aumento di ${e(s.aumento)} al mese)
+
+Resta ferma ogni altra condizione del contratto.
+
+Distinti saluti,
+${loc}
+[luogo e data]`;
+            }
+            return `Subject: ISTAT rent update - ${imm}
+
+Dear ${cond},
+
+with reference to the lease agreement starting on ${fmtDateEn(s.start)} for the property at ${imm}, and in accordance with the ISTAT index-linking clause of the contract, I hereby inform you that from ${fmtDateEn(s.anniv)} the monthly rent is updated as follows:
+
+- current monthly rent: ${e(s.canone)}
+- annual change of the ISTAT FOI index (excluding tobacco) for ${monthLabelEn(s.ref)}: ${n(s.var)}%
+- share of the change applied: ${s.perc}% = ${n(s.applied)}%
+- new monthly rent: ${e(s.nuovo)} (an increase of ${e(s.aumento)} per month)
+
+All other terms of the lease remain unchanged.
+
+Kind regards,
+${loc}
+[place and date]`;
+        }
+        function refreshLetter() { $('letter-text').textContent = buildLetter($('letter-lang').value); }
+
+        // --- SCADENZARIO ---
+        function buildSchedule(start, tipo, cedolare, clausola) {
+            const ev = [];
+            const add = (date, title, note, kind) => ev.push({ date, title, note, kind });
+            const { first: y1, renew: y2 } = contractDurations(tipo);
+            const months = TIPI[tipo].disd;
+            add(addDays(start, 30), 'Registrazione del contratto', 'Termine indicativo: 30 giorni dalla stipula o dalla decorrenza.', 'reg');
+            for (let k = 1; k <= y1 + y2 - 1; k++) {
+                const a = addYears(start, k);
+                if (clausola && !cedolare) add(a, k + '° anniversario del contratto', 'Puoi richiedere l\'adeguamento ISTAT, se previsto dal contratto.', 'istat');
+                if (!cedolare) add(addDays(a, 30), 'Imposta di registro annuale', 'Termine indicativo: 30 giorni dall\'anniversario, se non pagata in un\'unica soluzione.', 'tax');
+            }
+            const first = addDays(addYears(start, y1), -1);
+            const second = addDays(addYears(start, y1 + y2), -1);
+            add(addMonths(first, -months), 'Termine per la disdetta alla prima scadenza', 'Indicativo: almeno ' + months + ' mesi prima della scadenza (il locatore solo nei casi previsti dalla legge).', 'disd');
+            add(first, 'Scadenza del primo periodo', 'Primi ' + y1 + ' anni, con rinnovo di ulteriori ' + y2 + '.', 'exp');
+            add(addMonths(second, -months), 'Termine per la disdetta alla seconda scadenza', 'Indicativo: almeno ' + months + ' mesi prima della scadenza.', 'disd');
+            add(second, 'Scadenza del contratto rinnovato', 'Fine del periodo di rinnovo.', 'exp');
+            ev.sort((a, b) => a.date - b.date);
+            return ev;
+        }
+        function renderSchedule(events) {
+            const today = startOfDay(new Date());
+            // Le scadenze strutturali (registrazione, disdetta, fine periodo) si vedono sempre; i promemoria annuali solo per i prossimi 2 anni.
+            const visible = events.filter(e => {
+                const d = daysBetween(today, e.date);
+                if (d < -60) return false;
+                return (e.kind === 'istat' || e.kind === 'tax') ? d <= 730 : true;
+            }).slice(0, 14);
+            const body = $('schedule-body');
+            body.innerHTML = '';
+            visible.forEach(e => {
+                const d = daysBetween(today, e.date);
+                const tr = document.createElement('tr');
+                if (d < 0) tr.className = 'past';
+                const when = document.createElement('td'); when.className = 'when'; when.textContent = fmtDate(e.date);
+                const what = document.createElement('td'); what.className = 'what';
+                const strong = document.createElement('strong'); strong.textContent = e.title; what.appendChild(strong);
+                const note = document.createElement('span'); note.textContent = e.note; what.appendChild(note);
+                const tag = document.createElement('span');
+                tag.className = 'tag' + (d >= 0 && d <= 60 ? ' soon' : '');
+                tag.textContent = d < 0 ? 'passata' : d === 0 ? 'oggi' : 'tra ' + d + (d === 1 ? ' giorno' : ' giorni');
+                what.appendChild(document.createElement('br')); what.appendChild(tag);
+                tr.appendChild(when); tr.appendChild(what); body.appendChild(tr);
+            });
+            $('schedule-sub').textContent = visible.length ? 'Le prossime date, calcolate dalla decorrenza del contratto.' : 'Nessuna scadenza imminente.';
+            return visible;
+        }
+        function downloadFile(name, text, type) {
+            const blob = new Blob([text], { type });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob); a.download = name;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+        }
+        function makeIcs(events) {
+            const esc = (s) => s.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+            const ymd = (d) => d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+            const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+            const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Giuliato&Battistin//Scadenze contratto//IT', 'CALSCALE:GREGORIAN'];
+            events.forEach((e, i) => {
+                lines.push('BEGIN:VEVENT', 'UID:gb-' + ymd(e.date) + '-' + i + '@giuliatobattistin.it', 'DTSTAMP:' + stamp,
+                    'DTSTART;VALUE=DATE:' + ymd(e.date), 'DTEND;VALUE=DATE:' + ymd(addDays(e.date, 1)),
+                    'SUMMARY:' + esc(e.title), 'DESCRIPTION:' + esc(e.note + ' (data indicativa: verifica il contratto)'),
+                    'BEGIN:VALARM', 'TRIGGER:-P7D', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(e.title), 'END:VALARM', 'END:VEVENT');
+            });
+            lines.push('END:VCALENDAR');
+            return lines.join('\r\n');
+        }
+
+        // --- CALCOLO ---
+        function showError(msg, id) {
+            const box = $('err-calc'); box.textContent = msg; box.hidden = !msg;
+            ['canone', 'decorrenza'].forEach(f => $(f).setAttribute('aria-invalid', (msg && f === id) ? 'true' : 'false'));
+            if (msg) $('risultati').classList.remove('visible');
+            if (msg && id) $(id).focus();
+        }
+        function row(label, value, strong) {
+            const d = document.createElement('div'); d.className = 'row' + (strong ? ' strong' : '');
+            const dt = document.createElement('dt'); dt.textContent = label;
+            const dd = document.createElement('dd'); dd.textContent = value;
+            d.appendChild(dt); d.appendChild(dd); return d;
+        }
+        function callout(text, warn) { const c = $('res-callout'); c.hidden = !text; c.className = 'callout' + (warn ? ' warn' : ''); c.textContent = text || ''; }
+
+        function calcola() {
+            showError('');
+            const canone = parseFloat($('canone').value);
+            const dv = $('decorrenza').value;
+            if (!canone || canone <= 0) { showError('Inserisci il canone mensile attuale.', 'canone'); return; }
+            if (!dv) { showError('Inserisci la data di decorrenza del contratto.', 'decorrenza'); return; }
+            const start = parseDate(dv);
+            const tipo = $('tipo').value;
+            const cedolare = document.querySelector('input[name="cedolare"]:checked').value === 'si';
+            const clausola = document.querySelector('input[name="clausola"]:checked').value === 'si';
+            const quota = effectiveQuota(tipo);
+            const perc = quota.q;
+            const annivVal = $('anniv').value;
+            const events = buildSchedule(start, tipo, cedolare, clausola);
+
+            const detail = $('res-detail'); detail.innerHTML = '';
+            detail.appendChild(row('Tipo di contratto', $('tipo').selectedOptions[0].textContent));
+            detail.appendChild(row('Canone mensile attuale', eur(canone)));
+            state = { due: false, canone, start };
+
+            let main = '—', title = 'Nuovo canone mensile';
+            if (cedolare) {
+                title = 'Aggiornamento non dovuto'; main = eur(canone);
+                callout('Con la cedolare secca l\'aggiornamento ISTAT è sospeso per tutto il periodo dell\'opzione, anche se il contratto lo prevede: il canone resta invariato.', false);
+            } else if (!clausola) {
+                title = 'Aggiornamento non dovuto'; main = eur(canone);
+                callout('Il contratto non prevede l\'adeguamento ISTAT: l\'aumento non è dovuto, qualunque percentuale si scelga nel calcolatore.', true);
+            } else if (!annivVal) {
+                title = 'Aggiornamento non ancora possibile'; main = eur(canone);
+                callout('Il contratto non ha ancora compiuto un anno: l\'adeguamento si calcola dal primo anniversario.', true);
+            } else {
+                const anniv = parseDate(annivVal);
+                let ref = $('refmese').value;
+                if (ref === 'nd' || FOI_ANNUAL[ref] === undefined) {
+                    const need = $('refmese').dataset.auto || refKeyForAnniversary(anniv);
+                    main = eur(canone);
+                    detail.appendChild(row('Anniversario considerato', fmtDate(anniv)));
+                    if (need < FOI_FIRST) {
+                        title = 'Indice non incluso nello strumento';
+                        callout('Per questo anniversario l\'indice di ' + monthLabel(need) + ' non è nella tabella dello strumento: verifica la variazione sul sito ISTAT.', true);
+                        detail.appendChild(row('Indice di riferimento', monthLabel(need) + ' (non incluso)'));
+                    } else {
+                        title = 'Indice non ancora pubblicato';
+                        callout('L\'indice di ' + monthLabel(need) + ' non è ancora disponibile.' + (need === FOI_NEXT_KEY ? ' Il prossimo dato ISTAT è atteso ' + (FOI_DATA.next_release ? 'il ' : 'a ') + nextReleaseText() + ': potrai calcolare l\'adeguamento dopo quella data.' : ' Potrai calcolare l\'adeguamento dopo la sua pubblicazione.'), true);
+                        detail.appendChild(row('Indice di riferimento', monthLabel(need) + ' (non ancora pubblicato)'));
+                    }
+                } else {
+                    const variation = FOI_ANNUAL[ref];
+                    const applied = variation * perc / 100;
+                    detail.appendChild(row('Anniversario considerato', fmtDate(anniv)));
+                    detail.appendChild(row('Indice di riferimento', monthLabel(ref) + ' su ' + monthLabel(prevYearKey(ref))));
+                    detail.appendChild(row('Variazione annua indice FOI', pct(variation)));
+                    if (variation <= 0) {
+                        title = 'Nessun aumento'; main = eur(canone);
+                        callout('La variazione dell\'indice è nulla o negativa: non c\'è alcun aumento da applicare.', true);
+                    } else {
+                        const nuovo = Math.round(canone * (1 + applied / 100) * 100) / 100;
+                        const aumento = Math.round((nuovo - canone) * 100) / 100;
+                        detail.appendChild(row('Quota applicata', perc + '%' + (quota.fromClause ? ' (da clausola)' : ' (proposta)') + ' = ' + pct(applied)));
+                        detail.appendChild(row('Aumento mensile', eur(aumento)));
+                        detail.appendChild(row('Aumento annuo', eur(aumento * 12)));
+                        detail.appendChild(row('Nuovo canone mensile', eur(nuovo), true));
+                        detail.appendChild(row('Nuovo canone annuo', eur(nuovo * 12), true));
+                        main = eur(nuovo) + ' / mese';
+                        callout('Aumento di ' + eur(aumento) + ' al mese (' + pct(applied) + ') a partire dal ' + fmtDate(anniv) + '.', false);
+                        state = { due: true, canone, start, anniv, ref, var: variation, perc, applied, nuovo, aumento };
+                    }
+                }
+            }
+            $('res-title').textContent = title;
+            $('res-main').textContent = main;
+
+            $('letter-block').hidden = !state.due;
+            if (state.due) refreshLetter();
+
+            const shown = renderSchedule(events);
+            $('schedule-block').hidden = !shown.length;
+            const qn = $('quota-note');
+            qn.hidden = !(clausola && !cedolare);
+            qn.textContent = TIPI[tipo].note + (quota.capped ? ' La percentuale indicata supera il limite previsto per questo tipo di contratto: è stato applicato il limite del ' + TIPI[tipo].cap + '%.' : '');
+            state.events = events.filter(e => daysBetween(startOfDay(new Date()), e.date) >= 0);
+            $('source-note').textContent = 'Fonte dati: ISTAT, indice dei prezzi al consumo FOI (senza tabacchi). Ultimo dato disponibile: ' + monthLabel(FOI_LAST) + '. Prossimo aggiornamento: ' + nextReleaseText() + '.';
+
+            const box = $('risultati');
+            box.classList.remove('visible'); void box.offsetWidth; box.classList.add('visible');
+            box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            box.focus({ preventScroll: true });
+        }
+
+        // --- EVENTI ---
+        $('btn-calc').addEventListener('click', calcola);
+        $('istat-form').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); calcola(); } });
+        $('decorrenza').addEventListener('change', () => { populateAnniversaries(); showError(''); });
+        $('anniv').addEventListener('change', syncRefMonth);
+        $('tipo').addEventListener('change', syncTipo);
+        document.querySelectorAll('input[name="clausola"]').forEach(r => r.addEventListener('change', syncClausola));
+        $('canone').addEventListener('input', () => showError(''));
+        $('letter-lang').addEventListener('change', refreshLetter);
+        ['n-loc', 'n-cond', 'n-imm'].forEach(id => $(id).addEventListener('input', () => { if (state && state.due) refreshLetter(); }));
+        $('btn-copy').addEventListener('click', async () => {
+            const text = $('letter-text').textContent;
+            let ok = false;
+            try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+                const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+                try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+                document.body.removeChild(ta);
+            }
+            const b = $('btn-copy'); const old = 'Copia la lettera';
+            b.textContent = ok ? 'Lettera copiata' : 'Selezione non riuscita: copia a mano'; setTimeout(() => { b.textContent = old; }, 2200);
+        });
+        $('btn-txt').addEventListener('click', () => downloadFile('lettera_adeguamento_ISTAT.txt', $('letter-text').textContent, 'text/plain;charset=utf-8'));
+        $('btn-ics').addEventListener('click', () => { if (state && state.events && state.events.length) downloadFile('scadenze_contratto.ics', makeIcs(state.events), 'text/calendar;charset=utf-8'); });
+        $('btn-wa').addEventListener('click', () => {
+            const s = state || {};
+            const text = s.due
+                ? `Salve Giuliato&Battistin, ho simulato l'adeguamento ISTAT di un canone di ${eur(s.canone)}: il nuovo canone risulta ${eur(s.nuovo)} (+${pct(s.applied)}). Vorrei un parere.`
+                : 'Salve Giuliato&Battistin, ho usato il calcolatore di adeguamento ISTAT del canone e vorrei un parere.';
+            window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+        });
+
+        populateRefMonths();
+        populateAnniversaries();
+        syncTipo();
+        syncClausola();
+
+        // --- Embedded height ---
+        // When the page lives in an iframe (giuliatobattistin.it), tell the host how tall the content is
+        // so the iframe can be resized and never needs an inner scrollbar.
+        (function () {
+            if (window.parent === window) return;
+            let last = 0;
+            const send = () => {
+                const height = Math.ceil(document.body.getBoundingClientRect().height);
+                if (height && height !== last) {
+                    last = height;
+                    window.parent.postMessage({ source: 'gb-calcolatore', type: 'height', height }, '*');
+                }
+            };
+            if ('ResizeObserver' in window) new ResizeObserver(send).observe(document.body);
+            window.addEventListener('load', send);
+            send();
+        })();
+    </script>
+</body>
+</html>

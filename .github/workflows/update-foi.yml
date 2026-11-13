@@ -1,0 +1,42 @@
+name: Aggiorna indici FOI ISTAT
+
+on:
+  schedule:
+    # ISTAT diffonde i dati definitivi a metà mese: si controlla ogni giorno dal 14 al 28.
+    # Se non ci sono dati nuovi lo script non modifica nulla e non crea commit.
+    - cron: "30 7 14-28 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-foi
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scarica i dati ISTAT e aggiorna i file
+        run: python scripts/update_foi.py
+
+      - name: Commit e push (solo se ci sono modifiche)
+        run: |
+          if git diff --quiet; then
+            echo "Nessuna modifica da pubblicare."
+            exit 0
+          fi
+          LAST=$(jq -r .last data/foi.json)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/foi.json Adeguamento_ISTAT_canone.html
+          git commit -m "Aggiorna indice FOI ISTAT fino a ${LAST}"
+          git push
