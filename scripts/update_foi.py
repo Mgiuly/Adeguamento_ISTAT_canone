@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Aggiorna l'indice FOI (variazione annua, senza tabacchi) dall'API SDMX ufficiale ISTAT.
 
-Scrive data/foi.json e riscrive il blocco FOI_DATA dentro Adeguamento_ISTAT_canone.html.
+Scrive data/foi.json e riscrive il blocco FOI_DATA dentro le due pagine (italiana e inglese).
 Esce con errore (e non modifica nulla) se i dati non sono raggiungibili o non passano i controlli.
 Solo libreria standard: nessuna dipendenza da installare.
 """
@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "foi.json"
-HTML_FILE = ROOT / "Adeguamento_ISTAT_canone.html"
+HTML_FILES = [ROOT / "Adeguamento_ISTAT_canone.html", ROOT / "Adeguamento_ISTAT_canone_en.html"]
 
 BASE_URL = "https://esploradati.istat.it/SDMXWS/rest/data/"
 # FOI mensili: fino al 2025 (basi 1995/2010/2015) e dal 2026 (base 2025)
@@ -106,11 +106,15 @@ def main():
     DATA_FILE.write_text(json.dumps(new_with_meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     block = "const FOI_DATA = " + json.dumps(new, ensure_ascii=False) + ";"
-    html = HTML_FILE.read_text(encoding="utf-8")
     pattern = re.compile(r"(/\*FOI_DATA_START\*/\n\s*)const FOI_DATA = .*?;(\n\s*/\*FOI_DATA_END\*/)", re.S)
-    if not pattern.search(html):
-        raise SystemExit("Blocco FOI_DATA non trovato nella pagina: aggiornamento annullato")
-    HTML_FILE.write_text(pattern.sub(lambda m: m.group(1) + block + m.group(2), html, count=1), encoding="utf-8")
+    rewritten = {}
+    for html_file in HTML_FILES:
+        html = html_file.read_text(encoding="utf-8")
+        if not pattern.search(html):
+            raise SystemExit(f"Blocco FOI_DATA non trovato in {html_file.name}: aggiornamento annullato")
+        rewritten[html_file] = pattern.sub(lambda m: m.group(1) + block + m.group(2), html, count=1)
+    for html_file, content in rewritten.items():
+        html_file.write_text(content, encoding="utf-8")
     print(f"Aggiornato: {keys[0]} - {keys[-1]} ({len(keys)} mesi). Ultimo dato {keys[-1]}: {series[keys[-1]]}%")
 
 

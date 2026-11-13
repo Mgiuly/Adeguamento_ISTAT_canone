@@ -37,6 +37,6 @@ jobs:
           LAST=$(jq -r .last data/foi.json)
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/foi.json Adeguamento_ISTAT_canone.html
+          git add data/foi.json Adeguamento_ISTAT_canone.html Adeguamento_ISTAT_canone_en.html
           git commit -m "Aggiorna indice FOI ISTAT fino a ${LAST}"
           git push

@@ -20,12 +20,18 @@ La quota proposta dipende dal tipo di contratto. Se la clausola indica una perce
 ## Dati ISTAT e aggiornamento automatico
 
 - `data/foi.json` contiene la variazione annua dell'indice FOI (senza tabacchi) dal 2020, letta dall'API SDMX ufficiale ISTAT.
-- Il blocco `FOI_DATA` dentro `Adeguamento_ISTAT_canone.html` è una copia degli stessi dati: la pagina non fa richieste esterne.
+- Il blocco `FOI_DATA` dentro le due pagine è una copia degli stessi dati: la pagina non fa richieste esterne.
 - La GitHub Action `.github/workflows/update-foi.yml` gira ogni giorno dal 14 al 28 del mese (ISTAT diffonde i dati a metà mese), esegue `scripts/update_foi.py` e fa commit solo se ci sono dati nuovi. Si può lanciare a mano da Actions > "Aggiorna indici FOI ISTAT" > Run workflow.
 - Se l'API non risponde o i dati non passano i controlli (mesi consecutivi, valori plausibili) lo script esce con errore e non modifica nulla: GitHub segnala l'esecuzione fallita.
 - Se ISTAT cambia base o codici delle serie, vanno aggiornati gli identificativi in `scripts/update_foi.py`.
 
-## Inserimento nel sito
+## Versioni e inserimento nel sito
+
+La pagina esiste in italiano (`Adeguamento_ISTAT_canone.html`) e in inglese (`Adeguamento_ISTAT_canone_en.html`). L'aggiornamento mensile dei dati riscrive entrambe. Per la versione inglese si usa lo stesso codice con questo `src`:
+
+`https://raw.githack.com/Mgiuly/Adeguamento_ISTAT_canone/refs/heads/main/Adeguamento_ISTAT_canone_en.html`
+
+Versione italiana:
 
 ```html
 <iframe
