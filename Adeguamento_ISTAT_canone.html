@@ -210,7 +210,8 @@
                 </div>
                 <div class="field">
                     <label for="decorrenza">Data di decorrenza del contratto</label>
-                    <input type="date" id="decorrenza" aria-describedby="err-calc">
+                    <input type="date" id="decorrenza" aria-describedby="h-decorrenza err-calc">
+                    <span class="hint" id="h-decorrenza">La data di entrata in vigore del contratto: da questa si ricavano l'anniversario dell'adeguamento e le scadenze.</span>
                 </div>
                 <div class="field">
                     <label for="tipo">Tipo di contratto</label>
@@ -260,8 +261,9 @@
                 <summary>Opzioni avanzate (clausole particolari)</summary>
                 <div class="adv-grid">
                     <div class="field">
-                        <label for="anniv">Anniversario da aggiornare</label>
-                        <select id="anniv"></select>
+                        <label for="anniv">Adeguamento da applicare dal</label>
+                        <select id="anniv" aria-describedby="h-anniv"></select>
+                        <span class="hint" id="h-anniv">Si imposta da solo in base alla data di decorrenza: di norma è l'ultimo anniversario del contratto. Cambialo solo per calcolare un adeguamento di un anno precedente.</span>
                     </div>
                     <div class="field">
                         <label for="refmese">Mese di riferimento dell'indice</label>
@@ -425,25 +427,31 @@
             const sel = $('anniv');
             sel.innerHTML = '';
             const v = $('decorrenza').value;
-            if (!v) { sel.innerHTML = '<option value="">Inserisci la decorrenza</option>'; return; }
+            const hint = $('h-decorrenza');
+            const defaultHint = 'La data di entrata in vigore del contratto: da questa si ricavano l\'anniversario dell\'adeguamento e le scadenze.';
+            sel.disabled = false;
+            if (!v) { sel.innerHTML = '<option value="">Si compila dopo aver inserito la data di decorrenza</option>'; sel.disabled = true; hint.textContent = defaultHint; return; }
             const start = parseDate(v), today = startOfDay(new Date());
             const list = [];
             for (let k = 1; k <= 30; k++) { const a = addYears(start, k); if (a <= addDays(today, 400)) list.push({ k, a }); }
-            if (!list.length) { sel.innerHTML = '<option value="">Il contratto non ha ancora compiuto un anno</option>'; return; }
+            if (!list.length) { sel.innerHTML = '<option value="">Il contratto non ha ancora compiuto un anno</option>'; sel.disabled = true; hint.textContent = 'Il contratto non ha ancora compiuto un anno: l\'adeguamento si calcola dal primo anniversario.'; return; }
             const past = list.filter(x => x.a <= today);
             const shown = list.slice(-4);
             shown.forEach(x => {
                 const o = document.createElement('option');
                 o.value = isoOf(x.a);
-                o.textContent = x.k + '° anniversario - ' + fmtDate(x.a) + (x.a > today ? ' (non ancora raggiunto)' : '');
+                o.textContent = fmtDate(x.a) + ' (' + x.k + '° anniversario' + (x.a > today ? ', non ancora raggiunto' : '') + ')';
                 sel.appendChild(o);
             });
             if (!past.length) {
                 sel.innerHTML = '<option value="">Il contratto non ha ancora compiuto un anno</option>';
+                sel.disabled = true;
+                hint.textContent = 'Il contratto non ha ancora compiuto un anno: il primo anniversario sarà il ' + fmtDate(list[0].a) + '.';
                 return;
             }
             const def = past[past.length - 1];
             sel.value = isoOf(def.a);
+            hint.textContent = 'L\'adeguamento si calcola dall\'ultimo anniversario: ' + fmtDate(def.a) + ', quando il contratto compie ' + def.k + (def.k === 1 ? ' anno' : ' anni') + '.';
             syncRefMonth();
         }
         function populateRefMonths() {
@@ -630,7 +638,7 @@ ${loc}
                 if (ref === 'nd' || FOI_ANNUAL[ref] === undefined) {
                     const need = $('refmese').dataset.auto || refKeyForAnniversary(anniv);
                     main = eur(canone);
-                    detail.appendChild(row('Anniversario considerato', fmtDate(anniv)));
+                    detail.appendChild(row('Adeguamento a partire dal', fmtDate(anniv)));
                     if (need < FOI_FIRST) {
                         title = 'Indice non incluso nello strumento';
                         callout('Per questo anniversario l\'indice di ' + monthLabel(need) + ' non è nella tabella dello strumento: verifica la variazione sul sito ISTAT.', true);
@@ -643,7 +651,7 @@ ${loc}
                 } else {
                     const variation = FOI_ANNUAL[ref];
                     const applied = variation * perc / 100;
-                    detail.appendChild(row('Anniversario considerato', fmtDate(anniv)));
+                    detail.appendChild(row('Adeguamento a partire dal', fmtDate(anniv)));
                     detail.appendChild(row('Indice di riferimento', monthLabel(ref) + ' su ' + monthLabel(prevYearKey(ref))));
                     detail.appendChild(row('Variazione annua indice FOI', pct(variation)));
                     if (variation <= 0) {
