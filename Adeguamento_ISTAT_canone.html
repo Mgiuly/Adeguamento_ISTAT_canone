@@ -153,7 +153,13 @@
         details.advanced { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: var(--space-2); }
         details.advanced summary { cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--white); padding: 8px 0; }
         details.advanced .adv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--space-2) var(--space-3); margin-top: var(--space-2); }
-        .field input[type="date"], .field input[type="text"] { width: 100%; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-field); font-family: inherit; font-size: 16px; color: var(--white); background: var(--bg); color-scheme: dark; }
+        .field input[type="date"], .field input[type="text"] { display: block; width: 100%; min-width: 0; max-width: 100%; margin: 0; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-field); font-family: inherit; font-size: 16px; line-height: 1.4; color: var(--white); background: var(--bg); color-scheme: dark; -webkit-appearance: none; appearance: none; }
+        /* Safari iOS: il campo data ignora la larghezza e resta più alto degli altri, con il testo centrato */
+        .field input[type="date"] { text-align: left; }
+        .field input[type="number"], .field input[type="text"], .field input[type="date"], .field select { min-height: 50px; }
+        .field input[type="date"]::-webkit-date-and-time-value { text-align: left; min-height: 1.4em; margin: 0; }
+        .field input[type="date"]::-webkit-datetime-edit { padding: 0; }
+        .field input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.8; }
         .field input[type="date"]:focus, .field input[type="text"]:focus { border-color: var(--mint); outline: none; box-shadow: var(--shadow-focus); }
         .field input::placeholder { color: var(--muted); opacity: 0.6; }
         .privacy { grid-column: 1 / -1; margin: 0; text-align: center; font-size: 12.5px; color: var(--muted); }
